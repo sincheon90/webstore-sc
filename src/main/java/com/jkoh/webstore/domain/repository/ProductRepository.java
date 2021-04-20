@@ -13,5 +13,6 @@ public interface ProductRepository {
 	Product getProductById(String productID);
 	List<Product> getProdsByMultiFilter(String productCategory, 
 			Map<String, String> price, String brand);
+	void addProduct(Product product);
 	
 }

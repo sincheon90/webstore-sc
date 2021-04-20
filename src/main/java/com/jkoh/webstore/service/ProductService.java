@@ -20,5 +20,7 @@ public interface ProductService {
 			String productCategory, 
 			Map<String, String> price, 
 			String brand);
+	
+	void addProduct(Product product);
 
 }
