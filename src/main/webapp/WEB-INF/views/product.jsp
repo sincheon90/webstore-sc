@@ -37,7 +37,7 @@
 				</p>
 				<p>
 					<strong>상품범주</strong> : ${product.category}
-				</p>
+				</p> 
 				<p>
 					<strong>재고 수량 </strong> : ${product.unitsInStockStr}
 				</p>
