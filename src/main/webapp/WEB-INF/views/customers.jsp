@@ -1,55 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/main
-=======
-
->>>>>>> 7f34603b0c5bb5ceb57a641c16b6908d8563744f
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet"
-	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-<title>customer</title>
-</head>
-<body>
-	<section class="container">
-		<a href="/webstore">홈으로</a>
-		<hr>
-	</section>
-	<section>
-	<div class="jumbotron">
-		<div class="container">
-			<h1>customer</h1>
-			<p>customer</p>
-		</div>
-	</div>
-	</section>
-	<section class="container">
-	<div class="row">
-		<c:forEach items="${customers}" var="customer">
-			<div class="col-sm-6 col-md-3">
-				<div class="thumbnail">
-					<div class="caption">
-						<h3>${customer.name}</h3>
-						<p>${customer.address}</p>
-						<p>${customer.customerId}</p>
-						<p>주문 건수 : ${customer.noOfOrdersMade}</p>
-					</div>
-				</div>
-			</div>
-		</c:forEach>
-	</div>
-=======
-=======
->>>>>>> 7f34603b0c5bb5ceb57a641c16b6908d8563744f
 <meta charset="UTF-8">
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
@@ -65,7 +20,7 @@
 		</div>
 	</section>
 	<section class="container">
-		<a href="/webstore-jb">홈으로</a>
+		<a href="/webstore">홈으로</a>
 		<hr>
 	</section>
 	<section class="container">
@@ -83,10 +38,6 @@
 				</div>
 			</c:forEach>
 		</div>
-<<<<<<< HEAD
->>>>>>> origin/main
-=======
->>>>>>> 7f34603b0c5bb5ceb57a641c16b6908d8563744f
 	</section>
 </body>
 </html>
