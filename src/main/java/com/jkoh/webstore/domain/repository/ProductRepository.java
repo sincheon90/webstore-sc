@@ -10,5 +10,6 @@ public interface ProductRepository {
 	void updateStock(String productId, long noOfUnits);
 	List<Product> getProductsByCategory(String category);
 	List<Product> getProductByFilter(Map<String, List<String>> filterParams);
+	Product getProductById(String productID);
 	
 }

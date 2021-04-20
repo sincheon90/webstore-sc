@@ -39,6 +39,11 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> getProductByFilter(Map<String, List<String>> filterParams) {
 		return productRepository.getProductByFilter(filterParams);
 	}
+
+	@Override
+	public Product getProductById(String productID) {
+		return productRepository.getProductById(productID);
+	}
 	
 	
 

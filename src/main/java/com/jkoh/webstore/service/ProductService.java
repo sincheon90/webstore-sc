@@ -10,5 +10,6 @@ public interface ProductService {
 	void updateAllStock();
 	List<Product> getProductsByCategory(String category);
 	List<Product> getProductByFilter(Map<String, List<String>> filterParams);
+	Product getProductById(String productID);
 	
 }
