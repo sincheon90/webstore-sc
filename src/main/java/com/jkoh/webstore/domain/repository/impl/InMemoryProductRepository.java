@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -84,7 +85,7 @@ public class InMemoryProductRepository implements ProductRepository {
 	}
 
 	@Override
-	public void addProduct(Product product) { 
+	public void addProduct(Product product) throws DataAccessException { 
 		String SQL = "INSERT INTO PRODUCTS (ID, " + "PROD_NAME," + "DESCRIPTION," + "UNIT_PRICE," + "MANUFACTURER,"
 				+ "CATEGORY," + "PROD_CONDITION," + "UNITS_IN_STOCK," + "UNITS_IN_ORDER," + "DISCONTINUED) "
 				+ "VALUES (:id, :name, :desc, :price, :manufacturer, :category, "
@@ -100,7 +101,11 @@ public class InMemoryProductRepository implements ProductRepository {
 		params.put("inStock", product.getUnitsInStock());
 		params.put("inOrder", product.getUnitsInOrder());
 		params.put("discontinued", product.isDiscontinued());
-		jdbcTemplate.update(SQL, params);
+//		try {
+			jdbcTemplate.update(SQL, params);
+//		} catch (DataAccessException e) {
+//
+//		}
 	}
 
 }

@@ -22,7 +22,9 @@ charset=UTF-8"
 	</section>
 	<section class="container">
 	<ul>
-		<li><a href="customers/">고객 목록</a></li>
+		<li><a href="market/customers/">고객 목록</a></li>
+		<li><a href="market/customers/add">고객 추가</a></li>
+		<li><a href="market/products/add">상품 추가</a></li>
 		<li><span><a href="market/products/">상품 목록</a></span>(<span><a
 				href="market/products/laptop">랩탑</a></span>,&nbsp;<span><a
 				href="market/products/TABLET">태블릿</a></span>)</li>

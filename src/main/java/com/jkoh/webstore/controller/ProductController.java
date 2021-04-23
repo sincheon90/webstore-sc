@@ -1,6 +1,7 @@
 package com.jkoh.webstore.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -42,17 +43,6 @@ public class ProductController {
 		// productService.getProductsByCategory(category));
 		return "products";
 	}
-
-	/*
-	 * @RequestMapping("products/filter/{params}/{specification}") public String
-	 * getProductByFilter(Model model,
-	 * 
-	 * @MatrixVariable(pathVar="params") Map<String, List<String>> filterSpec,
-	 * 
-	 * @MatrixVariable(pathVar="specification") Map<String, List<String>>
-	 * filterParams) { model.addAttribute("products",
-	 * productService.getProductByFilter(filterParams)); return "products"; }
-	 */
 	
 	@RequestMapping("/product") // 7절 실습
 	public String getProductById(@RequestParam("id") String productId, Model model) {
@@ -62,22 +52,30 @@ public class ProductController {
 	
 	@RequestMapping(value = "/products/add", method = RequestMethod.GET)
 	public String getAddNewProductForm(Model model) {
+		System.out.println("RequestMethod.GET");
 		Product newProduct = new Product();
 		model.addAttribute("newProduct", newProduct);
 		return "addProduct";
 	}
 
 	@RequestMapping(value = "/products/add", method = RequestMethod.POST)
-	public String processAddNewProductForm(@ModelAttribute("newProduct") 
-			Product newProduct, BindingResult result) {
+	public String processAddNewProductForm(@ModelAttribute("newProduct")Product newProduct, 
+			BindingResult result, Model model) {
+		System.out.println("RequestMethod.POST");
 		String[] suppressedFields = result.getSuppressedFields();
 		if (suppressedFields.length > 0) {
 			throw new RuntimeException("Attempting to bind disallowed fields: "
 					+ StringUtils.arrayToCommaDelimitedString(suppressedFields));
 		}
-
-		productService.addProduct(newProduct);
-		return "redirect:/market/products";
+		try {
+			productService.addProduct(newProduct);
+			return "redirect:/market/products";
+		} catch (DataAccessException e) {
+			String msg = e.getMessage();
+			int idx = msg.lastIndexOf("Duplicate");
+			model.addAttribute("errorMsg", msg.substring(idx));
+			return "addProduct";
+		}
 	}
 
 }
