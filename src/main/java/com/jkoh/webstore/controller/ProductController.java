@@ -2,10 +2,13 @@ package com.jkoh.webstore.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,17 +61,18 @@ public class ProductController {
 		return "addProduct";
 	}
 
-	@RequestMapping(value = "/products/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/products/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE
+			+ "; charset=utf-8")
 	public String processAddNewProductForm(@ModelAttribute("newProduct")Product newProduct, 
 			BindingResult result, Model model) {
-		System.out.println("RequestMethod.POST");
-		String[] suppressedFields = result.getSuppressedFields();
-		if (suppressedFields.length > 0) {
-			throw new RuntimeException("Attempting to bind disallowed fields: "
-					+ StringUtils.arrayToCommaDelimitedString(suppressedFields));
-		}
 		try {
-			productService.addProduct(newProduct);
+			String[] suppressedFields = result.getSuppressedFields();
+			if (suppressedFields.length > 0) {
+				throw new RuntimeException(
+						"허용되지 않은 항목을 엮어오려고함: " + StringUtils.arrayToCommaDelimitedString(suppressedFields));
+			} else {
+				productService.addProduct(newProduct);
+			}
 			return "redirect:/market/products";
 		} catch (DataAccessException e) {
 			String msg = e.getMessage();
@@ -76,6 +80,11 @@ public class ProductController {
 			model.addAttribute("errorMsg", msg.substring(idx));
 			return "addProduct";
 		}
+	}
+	@InitBinder
+	public void initialiseBinder(WebDataBinder binder) {
+		binder.setAllowedFields("productId", "name", "unit*", "description", "manufacturer", "category",
+				"condition");
 	}
 
 }
