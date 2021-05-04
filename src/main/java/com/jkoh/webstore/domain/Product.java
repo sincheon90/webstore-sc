@@ -4,8 +4,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.jkoh.webstore.format.ValueFormat;
 
+@XmlRootElement
 public class Product implements Serializable {
 	
 	/**
@@ -16,6 +23,7 @@ public class Product implements Serializable {
 	private String name;
 	private BigDecimal unitPrice;
 	private String unitPriceStr;
+	
 	private String description;
 	private String manufacturer;
 	private String category;
@@ -24,6 +32,10 @@ public class Product implements Serializable {
 	private long unitsInOrder;
 	private boolean discontinued;
 	private String condition;
+	
+	@JsonIgnore
+	private MultipartFile productImage;
+//	private MultipartFile productManual;
 
 	public Product() {
 		super();
@@ -34,6 +46,23 @@ public class Product implements Serializable {
 		this.productId = productId;
 		this.name = name;
 		this.setUnitPrice(unitPrice);
+	}
+
+//	public MultipartFile getProductManual() {
+//		return productManual;
+//	}
+//
+//	public void setProductManual(MultipartFile productManual) {
+//		this.productManual = productManual;
+//	}
+	
+	@XmlTransient
+	public MultipartFile getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(MultipartFile productImage) {
+		this.productImage = productImage;
 	}
 
 	public String getProductId() {

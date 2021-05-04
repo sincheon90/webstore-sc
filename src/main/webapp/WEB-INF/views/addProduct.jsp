@@ -23,14 +23,14 @@
 	</section>
 	<section class="container">
 		<form:form method="POST" modelAttribute="newProduct"
-			class="form-horizontal">
+			class="form-horizontal" enctype="multipart/form-data">
 			<fieldset>
 				<legend>신상품 정보 입력</legend>
 				<span>${errorMsg}</span>
 				<div class="form-group">
 					<label class="control-label col-lg-2 col-lg-2" for="productId">
-						<spring:message
-							code="addProduct.form.productId.label" /></label>
+						<spring:message code="addProduct.form.productId.label" />
+					</label>
 					<div class="col-lg-10">
 						<form:input id="productId" path="productId" type="text"
 							class="form:input-large" />
@@ -108,6 +108,15 @@
 						Old
 						<form:radiobutton path="condition" value="Refurbished" />
 						Refurbished
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2" for="productImage"> <spring:message
+							code="addProduct.form.productImage.label" />
+					</label>
+					<div class="col-lg-10">
+						<form:input id="productImage" path="productImage" type="file"
+							class="form:input-large" />
 					</div>
 				</div>
 				<div class="form-group">

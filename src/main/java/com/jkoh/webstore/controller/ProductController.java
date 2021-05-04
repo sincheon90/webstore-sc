@@ -1,5 +1,9 @@
 package com.jkoh.webstore.controller;
 
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.MediaType;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jkoh.webstore.domain.Product;
 import com.jkoh.webstore.service.ProductService;
@@ -64,13 +69,26 @@ public class ProductController {
 	@RequestMapping(value = "/products/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE
 			+ "; charset=utf-8")
 	public String processAddNewProductForm(@ModelAttribute("newProduct")Product newProduct, 
-			BindingResult result, Model model) {
+			BindingResult result, Model model, HttpServletRequest request) {
 		try {
 			String[] suppressedFields = result.getSuppressedFields();
 			if (suppressedFields.length > 0) {
 				throw new RuntimeException(
 						"허용되지 않은 항목을 엮어오려고함: " + StringUtils.arrayToCommaDelimitedString(suppressedFields));
 			} else {
+				/**
+				 * 상품 영상 메모리 내용 정한 폴더에 파일로 보관
+				 */
+				MultipartFile productImage = newProduct.getProductImage();
+				String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+				if (productImage != null && !productImage.isEmpty()) {
+					try {
+						productImage.transferTo(
+								new File(rootDirectory + "resources\\images\\" + newProduct.getProductId() + ".png"));
+					} catch (Exception e) {
+						throw new RuntimeException("Product Image saving failed", e);
+					}
+				}
 				productService.addProduct(newProduct);
 			}
 			return "redirect:/market/products";
@@ -84,7 +102,7 @@ public class ProductController {
 	@InitBinder
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setAllowedFields("productId", "name", "unit*", "description", "manufacturer", "category",
-				"condition");
+				"condition", "productImage");
 	}
 
 }
